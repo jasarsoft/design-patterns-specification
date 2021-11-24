@@ -6,7 +6,7 @@ namespace UI
     {
         public App()
         {
-            Initer.Init(@"Server=.\Sql;Database=SpecPattern;Trusted_Connection=true;");
+            Initer.Init(@"Server=.;Database=SpecPattern;Trusted_Connection=true;");
         }
     }
 }

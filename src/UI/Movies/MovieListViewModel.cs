@@ -13,6 +13,10 @@ namespace UI.Movies
         public Command<long> BuyTicketCommand { get; }
         public IReadOnlyList<Movie> Movies { get; private set; }
 
+        public bool ForKidsOnly { get; set; }
+        public double MinimumRating { get; set; }
+        public bool OnCD { get; set; }
+
         public MovieListViewModel()
         {
             _repository = new MovieRepository();
@@ -29,7 +33,7 @@ namespace UI.Movies
 
         private void Search()
         {
-            Movies = _repository.GetList();
+            Movies = _repository.GetList(ForKidsOnly, MinimumRating, OnCD);
             Notify(nameof(Movies));
         }
     }

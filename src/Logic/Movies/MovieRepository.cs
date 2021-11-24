@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CSharpFunctionalExtensions;
 using Logic.Utils;
@@ -17,11 +18,16 @@ namespace Logic.Movies
             }
         }
 
-        public IReadOnlyList<Movie> GetList()
+        public IReadOnlyList<Movie> GetList(bool forKidsOnly, double minimumRating, bool availabeOnCD)
         {
             using (ISession session = SessionFactory.OpenSession())
             {
-                return session.Query<Movie>().ToList();
+                return session.Query<Movie>()
+                    .Where(x => 
+                        (x.MpaaRating == MpaaRating.PG || !forKidsOnly) &&
+                        x.Rating >= minimumRating &&
+                        (x.ReleaseDate <= DateTime.Now.AddMonths(-6) || !availabeOnCD))
+                    .ToList();
             }
         }
     }
