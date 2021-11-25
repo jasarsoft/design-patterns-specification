@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Logic.Utils;
+using System;
 using System.Linq.Expressions;
-using Logic.Utils;
 
 namespace Logic.Movies
 {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using Logic.Utils;
 using NHibernate;
 using NHibernate.Linq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Logic.Movies
 {
@@ -19,12 +17,12 @@ namespace Logic.Movies
             }
         }
 
-        public IReadOnlyList<Movie> GetList(Expression<Func<Movie, bool>> expression)
+        public IReadOnlyList<Movie> GetList(GenericSpecification<Movie> specification)
         {
             using (ISession session = SessionFactory.OpenSession())
             {
                 return session.Query<Movie>()
-                    .Where(expression)
+                    .Where(specification.Expression)
                     .ToList();
             }
         }

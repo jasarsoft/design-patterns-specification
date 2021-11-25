@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Windows;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using Logic.Movies;
+using System.Collections.Generic;
+using System.Windows;
 using UI.Common;
 
 namespace UI.Movies
@@ -44,8 +42,8 @@ namespace UI.Movies
             if (movieOrNothing.HasNoValue) return;
 
             Movie movie = movieOrNothing.Value;
-            Func<Movie, bool> isSuitableForChildern = Movie.IsSuitableForChildren.Compile();
-            if (!isSuitableForChildern(movie))
+            var specification = new GenericSpecification<Movie>(Movie.IsSuitableForChildren);
+            if (!specification.IsSatisfiedBy(movie))
             {
                 MessageBox.Show("The movie is not suitable for children", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -62,8 +60,8 @@ namespace UI.Movies
             if (movieOrNothing.HasNoValue) return;
 
             Movie movie = movieOrNothing.Value;
-            Func<Movie, bool> hasCDVersion = Movie.HasCDVersion.Compile();
-            if (!hasCDVersion(movie))
+            var specification = new GenericSpecification<Movie>(Movie.HasCDVersion);
+            if (!specification.IsSatisfiedBy(movie))
             {
                 MessageBox.Show("The movie doesn't have a CD version", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -76,9 +74,10 @@ namespace UI.Movies
 
         private void Search()
         {
-            Expression<Func<Movie, bool>> expression = ForKidsOnly ? Movie.IsSuitableForChildren : x => true;
+            //Expression<Func<Movie, bool>> expression = ForKidsOnly ? Movie.IsSuitableForChildren : x => true;
+            var specification = new GenericSpecification<Movie>(Movie.HasCDVersion);    
 
-            Movies = _repository.GetList(expression);
+            Movies = _repository.GetList(specification);
             Notify(nameof(Movies));
         }
     }
