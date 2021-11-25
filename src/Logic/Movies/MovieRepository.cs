@@ -26,5 +26,12 @@ namespace Logic.Movies
                     .ToList();
             }
         }
+
+        public IQueryable<Movie> Find()
+        {
+            ISession session = SessionFactory.OpenSession();
+            return session.Query<Movie>();
+            
+        }
     }
 }

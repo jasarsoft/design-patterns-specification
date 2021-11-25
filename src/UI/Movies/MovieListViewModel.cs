@@ -1,6 +1,8 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System;
+using CSharpFunctionalExtensions;
 using Logic.Movies;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using UI.Common;
 
@@ -75,9 +77,13 @@ namespace UI.Movies
         private void Search()
         {
             //Expression<Func<Movie, bool>> expression = ForKidsOnly ? Movie.IsSuitableForChildren : x => true;
-            var specification = new GenericSpecification<Movie>(Movie.HasCDVersion);    
+            //var specification = new GenericSpecification<Movie>(Movie.HasCDVersion);    
+            Movies = _repository.Find()
+                .Where(x => x.MpaaRating <= MpaaRating.PG || !ForKidsOnly)
+                .Where(x => x.ReleaseDate <= DateTime.Now.AddMonths(-6) | !OnCD)
+                .ToList();
 
-            Movies = _repository.GetList(specification);
+            //Movies = _repository.GetList(specification);
             Notify(nameof(Movies));
         }
     }
