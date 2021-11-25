@@ -87,7 +87,7 @@ namespace UI.Movies
                 spec = spec.And(new AvailableOnCDSpecification());
             }
 
-            Movies = _repository.GetList(spec);
+            Movies = _repository.GetList(spec, MinimumRating);
             
             Notify(nameof(Movies));
         }
