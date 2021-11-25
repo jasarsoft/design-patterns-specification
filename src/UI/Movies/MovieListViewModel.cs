@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Windows;
 using CSharpFunctionalExtensions;
 using Logic.Movies;
@@ -43,7 +44,8 @@ namespace UI.Movies
             if (movieOrNothing.HasNoValue) return;
 
             Movie movie = movieOrNothing.Value;
-            if (!movie.IsSuitableForChildern())
+            Func<Movie, bool> isSuitableForChildern = Movie.IsSuitableForChildren.Compile();
+            if (!isSuitableForChildern(movie))
             {
                 MessageBox.Show("The movie is not suitable for children", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -60,7 +62,8 @@ namespace UI.Movies
             if (movieOrNothing.HasNoValue) return;
 
             Movie movie = movieOrNothing.Value;
-            if (movie.ReleaseDate <= DateTime.Now.AddMonths(-6))
+            Func<Movie, bool> hasCDVersion = Movie.HasCDVersion.Compile();
+            if (!hasCDVersion(movie))
             {
                 MessageBox.Show("The movie doesn't have a CD version", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -73,7 +76,9 @@ namespace UI.Movies
 
         private void Search()
         {
-            Movies = _repository.GetList(ForKidsOnly, MinimumRating, OnCD);
+            Expression<Func<Movie, bool>> expression = ForKidsOnly ? Movie.IsSuitableForChildren : x => true;
+
+            Movies = _repository.GetList(expression);
             Notify(nameof(Movies));
         }
     }

@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Logic.Utils;
 
 namespace Logic.Movies
 {
     public class Movie : Entity
     {
+        public static readonly Expression<Func<Movie, bool>> IsSuitableForChildren =
+            x => x.MpaaRating <= MpaaRating.PG;
+
+        public static readonly Expression<Func<Movie, bool>> HasCDVersion =
+            x => x.ReleaseDate <= DateTime.Now.AddMonths(-6);
+
         public virtual string Name { get; }
         public virtual DateTime ReleaseDate { get; }
         public virtual MpaaRating MpaaRating { get; }
@@ -13,11 +20,6 @@ namespace Logic.Movies
 
         protected Movie()
         {
-        }
-
-        public virtual bool IsSuitableForChildern()
-        {
-            return MpaaRating <= MpaaRating.PG;
         }
     }
 
