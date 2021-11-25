@@ -44,8 +44,8 @@ namespace UI.Movies
             if (movieOrNothing.HasNoValue) return;
 
             Movie movie = movieOrNothing.Value;
-            var specification = new GenericSpecification<Movie>(Movie.IsSuitableForChildren);
-            if (!specification.IsSatisfiedBy(movie))
+            var spec = new MovieForKidsSpecification();
+            if (!spec.IsSatisfiedBy(movie))
             {
                 MessageBox.Show("The movie is not suitable for children", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -62,8 +62,8 @@ namespace UI.Movies
             if (movieOrNothing.HasNoValue) return;
 
             Movie movie = movieOrNothing.Value;
-            var specification = new GenericSpecification<Movie>(Movie.HasCDVersion);
-            if (!specification.IsSatisfiedBy(movie))
+            var spec = new AvailableOnCDSpecification();
+            if (!spec.IsSatisfiedBy(movie))
             {
                 MessageBox.Show("The movie doesn't have a CD version", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -76,14 +76,10 @@ namespace UI.Movies
 
         private void Search()
         {
-            //Expression<Func<Movie, bool>> expression = ForKidsOnly ? Movie.IsSuitableForChildren : x => true;
-            //var specification = new GenericSpecification<Movie>(Movie.HasCDVersion);    
-            Movies = _repository.Find()
-                .Where(x => x.MpaaRating <= MpaaRating.PG || !ForKidsOnly)
-                .Where(x => x.ReleaseDate <= DateTime.Now.AddMonths(-6) | !OnCD)
-                .ToList();
+            var spec = new MovieForKidsSpecification();
 
-            //Movies = _repository.GetList(specification);
+            Movies = _repository.GetList(spec);
+            
             Notify(nameof(Movies));
         }
     }

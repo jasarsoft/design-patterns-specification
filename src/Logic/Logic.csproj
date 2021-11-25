@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Movies\GenericSpecification.cs" />
     <Compile Include="Movies\MovieRepository.cs" />
+    <Compile Include="Movies\Specification.cs" />
     <Compile Include="Utils\Entity.cs" />
     <Compile Include="Movies\Movie.cs" />
     <Compile Include="Movies\MovieMap.cs" />
