@@ -29,6 +29,7 @@
                     <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" />
                     <DataGridTextColumn Header="MPAA" Binding="{Binding MpaaRating}" />
                     <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
+                    <DataGridTextColumn Header="Director" Binding="{Binding Director}" />
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>

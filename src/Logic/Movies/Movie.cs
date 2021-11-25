@@ -10,6 +10,7 @@ namespace Logic.Movies
         public virtual MpaaRating MpaaRating { get; }
         public virtual string Genre { get; }
         public virtual double Rating { get; }
+        public virtual Director Director { get; }
 
         protected Movie()
         {

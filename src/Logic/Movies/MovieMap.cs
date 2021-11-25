@@ -13,6 +13,8 @@ namespace Logic.Movies
             Map(x => x.MpaaRating).CustomType<int>();
             Map(x => x.Genre);
             Map(x => x.Rating);
+
+            References(x => x.Director);
         }
     }
 }

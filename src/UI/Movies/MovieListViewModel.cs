@@ -16,7 +16,7 @@ namespace UI.Movies
         public Command<long> BuyAdultTicketCommand { get; }
         public Command<long> BuyChildTicketCommand { get; }
         public Command<long> BuyCDTicketCommand { get; }
-        public IReadOnlyList<Movie> Movies { get; private set; }
+        public IReadOnlyList<MovieDto> Movies { get; private set; }
 
         public bool ForKidsOnly { get; set; }
         public double MinimumRating { get; set; }
@@ -76,16 +76,18 @@ namespace UI.Movies
 
         private void Search()
         {
-            var spec = Specification<Movie>.All;
-            if (ForKidsOnly)
-            {
-                spec = spec.And(new MovieForKidsSpecification());
-            }
+            //var spec = Specification<Movie>.All;
+            //if (ForKidsOnly)
+            //{
+            //    spec = spec.And(new MovieForKidsSpecification());
+            //}
 
-            if (OnCD)
-            {
-                spec = spec.And(new AvailableOnCDSpecification());
-            }
+            //if (OnCD)
+            //{
+            //    spec = spec.And(new AvailableOnCDSpecification());
+            //}
+
+            var spec = new MovieDirectedBySpecification("Bill Condon");
 
             Movies = _repository.GetList(spec, MinimumRating);
             
