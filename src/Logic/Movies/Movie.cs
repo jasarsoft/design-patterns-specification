@@ -14,6 +14,11 @@ namespace Logic.Movies
         protected Movie()
         {
         }
+
+        public virtual bool IsSuitableForChildern()
+        {
+            return MpaaRating <= MpaaRating.PG;
+        }
     }
 
 

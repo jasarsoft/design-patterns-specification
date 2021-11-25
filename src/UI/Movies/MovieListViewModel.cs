@@ -43,7 +43,7 @@ namespace UI.Movies
             if (movieOrNothing.HasNoValue) return;
 
             Movie movie = movieOrNothing.Value;
-            if (movie.MpaaRating > MpaaRating.PG)
+            if (!movie.IsSuitableForChildern())
             {
                 MessageBox.Show("The movie is not suitable for children", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);

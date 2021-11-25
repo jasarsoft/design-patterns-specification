@@ -24,7 +24,7 @@ namespace Logic.Movies
             {
                 return session.Query<Movie>()
                     .Where(x => 
-                        (x.MpaaRating == MpaaRating.PG || !forKidsOnly) &&
+                        (x.IsSuitableForChildern() || !forKidsOnly) &&
                         x.Rating >= minimumRating &&
                         (x.ReleaseDate <= DateTime.Now.AddMonths(-6) || !availabeOnCD))
                     .ToList();
