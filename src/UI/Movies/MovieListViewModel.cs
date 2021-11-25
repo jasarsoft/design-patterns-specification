@@ -76,7 +76,16 @@ namespace UI.Movies
 
         private void Search()
         {
-            var spec = new MovieForKidsSpecification();
+            var spec = Specification<Movie>.All;
+            if (ForKidsOnly)
+            {
+                spec = spec.And(new MovieForKidsSpecification());
+            }
+
+            if (OnCD)
+            {
+                spec = spec.And(new AvailableOnCDSpecification());
+            }
 
             Movies = _repository.GetList(spec);
             
